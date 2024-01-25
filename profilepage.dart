@@ -7,9 +7,6 @@ class SignedInPage extends StatefulWidget {
 }
 
 class _SignedInPageState extends State<SignedInPage> {
-  // @override
-  // void initState() {}
-
   late AppProvider provider;
   LocationProvider? locProvider;
   OrdersHistoryProvider? _ordersHistoryProvider;
@@ -28,11 +25,9 @@ class _SignedInPageState extends State<SignedInPage> {
   @override
   void initState() {
     eventBus.on<UpdateActiveOrdersEvent>().listen((event) async {
-      //WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (mounted) {
         await context.read<OrdersHistoryProvider>().getActiveOrders();
       }
-      //});
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<LocationProvider>().getUserCountry();
@@ -47,7 +42,6 @@ class _SignedInPageState extends State<SignedInPage> {
                   DeviceType.android, '${androidInfo?.model}');
           _device =
               '${StringHelper.capitalize(androidInfo?.brand)} ${singleDeviceNameFromModel == "Unknown" ? androidInfo?.model : singleDeviceNameFromModel}';
-          // print(singleDeviceNameFromModel);
         } else if (Platform.isIOS) {
           IosDeviceInfo? iosInfo = await deviceInfo?.iosInfo;
           var _i = await deviceInfo?.deviceInfo;
@@ -55,8 +49,6 @@ class _SignedInPageState extends State<SignedInPage> {
 
           _device = '${iosInfo?.utsname.machine?.iOSProductName ?? ''}';
         }
-
-        // _sistemVersion = Platform.isAndroid?  deviceInfo.androidInfo.
 
         packageInfo = await PackageInfo.fromPlatform();
         await context.read<OrdersHistoryProvider>().getActiveOrders();
@@ -72,8 +64,6 @@ class _SignedInPageState extends State<SignedInPage> {
 
   @override
   Widget build(BuildContext context) {
-    // if (getTabNavItem != null) if (getTabNavItem!.call() !=
-    //     BottomNavItem.profile) return Container();
     if (!_isInit) {
       provider = context.read<AppProvider>();
       locProvider = context.watch<LocationProvider>();
@@ -135,10 +125,6 @@ class _SignedInPageState extends State<SignedInPage> {
                                     wrapWords: true,
                                     maxLines: 2,
                                   ),
-                                  // Text(
-                                  //   '${snapshot.data?.name ?? 'Ваше имя'} ${snapshot.data?.surname ?? ''}',
-                                  //   style: getTextStyle(fontSize: 20.0),
-                                  // ),
                                   const SizedBox(height: 4.0),
                                   widget.profile.phone != null
                                       ? Text(
@@ -198,11 +184,7 @@ class _SignedInPageState extends State<SignedInPage> {
                             await context
                                 .read<LocationProvider>()
                                 .getUserCountry();
-                            // if (appSession?.profile?.city?.id !=
-                            //     locProvider.currentCity?.id) {
-                            //   provider.patchProfile(
-                            //       city: locProvider.currentCity);
-                            // }
+
                             setState(() {});
                           },
                         ),
@@ -217,18 +199,7 @@ class _SignedInPageState extends State<SignedInPage> {
                             navigator?.pushNamed(RoutePaths.historyOrder);
                           },
                         ),
-                        //----- My Adress ----//
-                        // IconTextArrowItem(
-                        //   data: {
-                        //     'icon': 'assets/24/pin_small.png',
-                        //     'title': 'Мои адреса',
-                        //     'jumpTo': ''
-                        //   },
-                        //   onTap: () {
-                        //     // Navigator.pushNamed(context, RoutePaths.historyOrder);
-                        //   },
-                        // ),
-                        //----- Set Notification ----//
+
                         IconTextArrowItem(
                           data: {
                             'icon': 'assets/24/Notifications.png',
